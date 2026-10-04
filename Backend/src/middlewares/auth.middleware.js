@@ -25,6 +25,7 @@ async function authUser(req, res, next) {
 
     next();
   } catch (err) {
+    console.log("JWT ERROR:", err.message);
     return res.status(401).json({
       message: "Invalid Token",
     });
