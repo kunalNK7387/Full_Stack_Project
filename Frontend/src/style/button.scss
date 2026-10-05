@@ -1,19 +1,79 @@
 .button {
   border: none;
   outline: none;
+
   padding-inline: 1.5rem;
   padding-block: 0.75rem;
+
   border-radius: 1rem;
+
   cursor: pointer;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
 
   transition: all 0.3s ease-in-out;
 
+  // Primary Button
   &.primary-button {
-    background-color: rgb(197, 3, 68);
-    color: white;
+    background-color: #a8dadc;
+
+    color: #242323;
+
+    &:hover {
+      background-color: #8fcfd2;
+
+      box-shadow: 0 6px 20px rgba(168, 218, 220, 0.25);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
   }
 
-  &:active {
-    transform: scale(0.9);
+  // Secondary Button
+  &.secondary-button {
+    background-color: #2d2c2c;
+
+    color: #f5f5f5;
+
+    border: 1px solid #414040;
+
+    &:hover {
+      background-color: #302f2f;
+
+      border-color: #a8dadc;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  // Accent Button
+  &.accent-button {
+    background-color: #a8dadc;
+
+    color: #242323;
+
+    &:hover {
+      background-color: #8fcfd2;
+
+      box-shadow: 0 6px 20px rgba(168, 218, 220, 0.25);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  // Disabled Button
+  &:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    transform: none;
   }
 }
