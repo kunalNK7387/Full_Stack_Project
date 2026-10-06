@@ -70,8 +70,6 @@ async function getAllInterviewReportsController(req, res) {
         "-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGap -preparationPlan",
       );
 
-    console.log("INTERVIEW REPORTS:", interviewReports);
-
     res.status(200).json({
       message: "Interview reports fetched successfully.",
       interviewReports,
