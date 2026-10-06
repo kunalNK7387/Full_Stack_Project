@@ -31,6 +31,17 @@ interviewRouter.get(
 );
 
 /**
+ * @route Delete /api/interview
+ * @description Delete the recent interview plans of logged in user
+ * @access private
+ */
+interviewRouter.delete(
+  "/report/:interviewId",
+  authMiddleware.authUser,
+  interviewController.deleteInterviewReportController,
+);
+
+/**
  * @route GET /api/interview
  * @description get all interview reports of logged in user.
  * @access private
@@ -40,4 +51,5 @@ interviewRouter.get(
   authMiddleware.authUser,
   interviewController.getAllInterviewReportsController,
 );
+
 module.exports = interviewRouter;

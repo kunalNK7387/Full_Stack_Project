@@ -4,16 +4,93 @@ import { useInterview } from "../hooks/useInterview";
 import { useNavigate } from "react-router";
 
 const Home = () => {
-  const { loading, reportsLoading, generateReport, reports, getReports } =
-    useInterview();
+  const {
+    loading,
+    reportsLoading,
+    generateReport,
+    reports,
+    getReports,
+    deleteReport,
+  } = useInterview();
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
   const resumeInputRef = useRef();
+  const [deleteModal, setDeleteModal] = useState({
+    open: false,
+    reportId: null,
+  });
+
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const [notification, setNotification] = useState({
+    show: false,
+    type: "",
+    message: "",
+  });
 
   const navigate = useNavigate();
   useEffect(() => {
     getReports();
   }, []);
+
+  const handleDeleteReport = (e, interviewId) => {
+    e.stopPropagation();
+
+    setDeleteModal({
+      open: true,
+      reportId: interviewId,
+    });
+  };
+
+  const confirmDeleteReport = async () => {
+    try {
+      setDeleteLoading(true);
+
+      await deleteReport(deleteModal.reportId);
+
+      setDeleteModal({
+        open: false,
+        reportId: null,
+      });
+
+      setNotification({
+        show: true,
+        type: "success",
+        message: "Interview plan deleted successfully.",
+      });
+
+      setTimeout(() => {
+        setNotification({
+          show: false,
+          type: "",
+          message: "",
+        });
+      }, 3000);
+    } catch (error) {
+      console.error(error);
+
+      setDeleteModal({
+        open: false,
+        reportId: null,
+      });
+
+      setNotification({
+        show: true,
+        type: "error",
+        message: "Failed to delete interview plan.",
+      });
+
+      setTimeout(() => {
+        setNotification({
+          show: false,
+          type: "",
+          message: "",
+        });
+      }, 3000);
+    } finally {
+      setDeleteLoading(false);
+    }
+  };
 
   const handleGenerateReport = async () => {
     const resumeFile = resumeInputRef.current.files[0];
@@ -192,23 +269,108 @@ const Home = () => {
                   className="report-item"
                   onClick={() => navigate(`/interview/${report._id}`)}
                 >
-                  <h3>{report.title || "Untitled Position"}</h3>
+                  <div className="report-item__content">
+                    <h3>{report.title || "Untitled Position"}</h3>
 
-                  <p className="report-meta">
-                    Generated on{" "}
-                    {new Date(report.createdAt).toLocaleDateString("en-GB")}
-                  </p>
+                    <p className="report-meta">
+                      Generated on{" "}
+                      {new Date(report.createdAt).toLocaleDateString("en-GB")}
+                    </p>
 
-                  <p className={`match-score ${scoreClass}`}>
-                    Match Score: {report.matchScore}%
-                  </p>
+                    <p className={`match-score ${scoreClass}`}>
+                      Match Score: {report.matchScore}%
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="delete-report-btn"
+                    onClick={(e) => handleDeleteReport(e, report._id)}
+                  >
+                    Delete
+                  </button>
                 </li>
               );
             })}
           </ul>
         )}
       </section>
+      {/* Delete Confirmation Modal */}
+      {deleteModal.open && (
+        <div
+          className="delete-modal-overlay"
+          onClick={() =>
+            !deleteLoading &&
+            setDeleteModal({
+              open: false,
+              reportId: null,
+            })
+          }
+        >
+          <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="delete-modal__icon">🗑</div>
 
+            <div className="delete-modal__content">
+              <h2>Delete Interview Plan?</h2>
+
+              <p>
+                Are you sure you want to delete this interview plan?
+                <br />
+                <span>This action cannot be undone.</span>
+              </p>
+            </div>
+
+            <div className="delete-modal__actions">
+              <button
+                type="button"
+                className="delete-modal__cancel"
+                disabled={deleteLoading}
+                onClick={() =>
+                  setDeleteModal({
+                    open: false,
+                    reportId: null,
+                  })
+                }
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                className="delete-modal__confirm"
+                disabled={deleteLoading}
+                onClick={confirmDeleteReport}
+              >
+                {deleteLoading ? "Deleting..." : "Delete Plan"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Notification */}
+      {notification.show && (
+        <div className={`notification notification--${notification.type}`}>
+          <span className="notification__icon">
+            {notification.type === "success" ? "✓" : "!"}
+          </span>
+
+          <span className="notification__message">{notification.message}</span>
+
+          <button
+            type="button"
+            className="notification__close"
+            onClick={() =>
+              setNotification({
+                show: false,
+                type: "",
+                message: "",
+              })
+            }
+          >
+            ×
+          </button>
+        </div>
+      )}
       {/* Footer */}
       <footer className="page-footer">
         <a href="#privacy">Privacy Policy</a>

@@ -84,8 +84,40 @@ async function getAllInterviewReportsController(req, res) {
     });
   }
 }
+
+/**
+ * @description Delete an interview report belonging to the logged-in user
+ */
+
+async function deleteInterviewReportController(req, res) {
+  try {
+    const { interviewId } = req.params;
+
+    const deletedReport = await interviewReportModel.findOneAndDelete({
+      _id: interviewId,
+      user: req.user.id,
+    });
+
+    if (!deletedReport) {
+      return res.status(404).json({
+        message: "Interview report not found.",
+      });
+    }
+
+    res.status(200).json({
+      message: "Interview report deleted successfully.",
+    });
+  } catch (error) {
+    console.error("DELETE REPORT ERROR:", error);
+
+    res.status(500).json({
+      message: "Failed to delete interview report.",
+    });
+  }
+}
 module.exports = {
   generateInterviewReportController,
   generateInterviewReportByIdController,
   getAllInterviewReportsController,
+  deleteInterviewReportController,
 };

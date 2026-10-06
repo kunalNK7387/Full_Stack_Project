@@ -2,6 +2,7 @@ import {
   getAllInterviewReports,
   generateInterviewReport,
   getInterviewReportsById,
+  deleteInterviewReport,
 } from "../services/interview.api";
 
 import { useContext } from "react";
@@ -93,6 +94,18 @@ export const useInterview = () => {
       setReportsLoading(false);
     }
   };
+  const deleteReport = async (interviewId) => {
+    try {
+      await deleteInterviewReport(interviewId);
+
+      setReports((previousReports) =>
+        previousReports.filter((report) => report._id !== interviewId),
+      );
+    } catch (error) {
+      console.error("Delete report error:", error);
+      throw error;
+    }
+  };
 
   return {
     loading,
@@ -104,5 +117,6 @@ export const useInterview = () => {
     generateReport,
     getReportById,
     getReports,
+    deleteReport,
   };
 };

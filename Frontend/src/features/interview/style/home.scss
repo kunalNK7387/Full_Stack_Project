@@ -1,4 +1,5 @@
 // ── Variables ────────────────────────────────────────────────────────────────
+
 $bg-page: #242323;
 $bg-card: #2d2c2c;
 $bg-panel: #302f2f;
@@ -31,6 +32,7 @@ $font-stack:
   sans-serif;
 
 // ── Page Shell ───────────────────────────────────────────────────────────────
+
 .home-page {
   width: 100%;
   min-height: 100vh;
@@ -48,6 +50,7 @@ $font-stack:
 }
 
 // ── Page Header ──────────────────────────────────────────────────────────────
+
 .page-header {
   text-align: center;
 
@@ -73,6 +76,7 @@ $font-stack:
 }
 
 // ── Main Card ────────────────────────────────────────────────────────────────
+
 .interview-card {
   width: 100%;
   max-width: 900px;
@@ -107,6 +111,7 @@ $font-stack:
 }
 
 // ── Panels ───────────────────────────────────────────────────────────────────
+
 .panel-divider {
   width: 1px;
   background-color: $border-color;
@@ -227,6 +232,7 @@ $font-stack:
 }
 
 // ── Badges ───────────────────────────────────────────────────────────────────
+
 .badge {
   font-size: 0.7rem;
   font-weight: 600;
@@ -254,6 +260,7 @@ $font-stack:
 }
 
 // ── Section Label ────────────────────────────────────────────────────────────
+
 .section-label {
   display: flex;
   align-items: center;
@@ -269,6 +276,7 @@ $font-stack:
 }
 
 // ── Dropzone ─────────────────────────────────────────────────────────────────
+
 .upload-section {
   display: flex;
   flex-direction: column;
@@ -342,6 +350,7 @@ $font-stack:
 }
 
 // ── OR Divider ───────────────────────────────────────────────────────────────
+
 .or-divider {
   display: flex;
   align-items: center;
@@ -366,7 +375,8 @@ $font-stack:
   }
 }
 
-// ── Self Description ─────────────────────────────────────────────────────────
+// ── Self Description ────────────────────────────────────────────────────────
+
 .self-description {
   display: flex;
   flex-direction: column;
@@ -375,6 +385,7 @@ $font-stack:
 }
 
 // ── Info Box ─────────────────────────────────────────────────────────────────
+
 .info-box {
   display: flex;
   align-items: flex-start;
@@ -425,6 +436,7 @@ $font-stack:
 }
 
 // ── Generate Button ──────────────────────────────────────────────────────────
+
 .generate-btn {
   display: flex;
   align-items: center;
@@ -463,7 +475,8 @@ $font-stack:
   }
 }
 
-// ── Recent Reports ────────────────────────────────────────────────────────────
+// ── Recent Reports ───────────────────────────────────────────────────────────
+
 .recent-reports {
   display: flex;
   flex-direction: column;
@@ -562,11 +575,352 @@ $font-stack:
           color: $error;
         }
       }
+
+      // ── Delete Button ─────────────────────────────────────────────────────
+
+      .delete-report-btn {
+        width: 100%;
+
+        padding: 0.55rem 0.75rem;
+
+        background: transparent;
+        color: $error;
+
+        border: 1px solid rgba($error, 0.35);
+        border-radius: 0.45rem;
+
+        font-family: $font-stack;
+        font-size: 0.8rem;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.15s ease;
+
+        &:hover {
+          background-color: rgba($error, 0.1);
+          border-color: $error;
+          color: $error;
+        }
+
+        &:active {
+          transform: scale(0.97);
+        }
+      }
     }
   }
 }
 
+// ── Delete Confirmation Modal ───────────────────────────────────────────────
+
+.delete-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  backdrop-filter: blur(6px);
+
+  z-index: 1000;
+
+  animation: modalOverlayIn 0.2s ease;
+}
+
+.delete-modal {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 1.75rem;
+
+  background: $bg-card;
+
+  border: 1px solid rgba($error, 0.2);
+
+  border-radius: 1rem;
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba($error, 0.05);
+
+  text-align: center;
+
+  animation: modalIn 0.25s ease;
+}
+
+.delete-modal__icon {
+  width: 56px;
+  height: 56px;
+
+  margin: 0 auto 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: rgba($error, 0.1);
+
+  border: 1px solid rgba($error, 0.2);
+
+  font-size: 1.4rem;
+}
+
+.delete-modal__content {
+  h2 {
+    margin: 0 0 0.5rem;
+
+    color: $text-primary;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+
+    color: $text-muted;
+
+    font-size: 0.85rem;
+
+    line-height: 1.6;
+
+    span {
+      color: #77736f;
+
+      font-size: 0.78rem;
+    }
+  }
+}
+
+.delete-modal__actions {
+  display: flex;
+
+  gap: 0.75rem;
+
+  margin-top: 1.5rem;
+}
+
+.delete-modal__cancel,
+.delete-modal__confirm {
+  flex: 1;
+
+  padding: 0.7rem 1rem;
+
+  border-radius: 0.5rem;
+
+  font-family: $font-stack;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    opacity 0.2s ease;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+  }
+}
+
+.delete-modal__cancel {
+  background: transparent;
+
+  color: $text-muted;
+
+  border: 1px solid $border-color;
+
+  &:hover:not(:disabled) {
+    background: $bg-panel;
+
+    color: $text-primary;
+
+    border-color: #555252;
+  }
+}
+
+.delete-modal__confirm {
+  background: rgba($error, 0.1);
+
+  color: $error;
+
+  border: 1px solid rgba($error, 0.35);
+
+  &:hover:not(:disabled) {
+    background: $error;
+
+    color: #242323;
+
+    border-color: $error;
+  }
+}
+
+// ── Notification ─────────────────────────────────────────────────────────────
+
+.notification {
+  position: fixed;
+
+  right: 1.5rem;
+  bottom: 1.5rem;
+
+  min-width: 300px;
+  max-width: 420px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 0.75rem;
+
+  padding: 0.85rem 1rem;
+
+  background: $bg-card;
+
+  border-radius: 0.65rem;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+
+  z-index: 1100;
+
+  animation: notificationIn 0.3s ease;
+}
+
+.notification__icon {
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  font-size: 0.8rem;
+
+  font-weight: 700;
+}
+
+.notification__message {
+  flex: 1;
+
+  color: $text-primary;
+
+  font-size: 0.82rem;
+}
+
+.notification__close {
+  width: 24px;
+  height: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  background: transparent;
+
+  border: none;
+
+  color: $text-muted;
+
+  font-size: 1.2rem;
+
+  cursor: pointer;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+// ── Success Notification ─────────────────────────────────────────────────────
+
+.notification--success {
+  border: 1px solid rgba($success, 0.25);
+
+  .notification__icon {
+    background: rgba($success, 0.12);
+
+    color: $success;
+  }
+}
+
+// ── Error Notification ───────────────────────────────────────────────────────
+
+.notification--error {
+  border: 1px solid rgba($error, 0.25);
+
+  .notification__icon {
+    background: rgba($error, 0.12);
+
+    color: $error;
+  }
+}
+
+// ── Animations ────────────────────────────────────────────────────────────────
+
+@keyframes modalOverlayIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(15px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes notificationIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
 // ── Page Footer ──────────────────────────────────────────────────────────────
+
 .page-footer {
   display: flex;
 
@@ -588,6 +942,7 @@ $font-stack:
 }
 
 // ── Responsive ───────────────────────────────────────────────────────────────
+
 @media (max-width: 768px) {
   .home-page {
     padding: 2rem 1rem;
@@ -610,6 +965,7 @@ $font-stack:
 
     &__footer {
       flex-direction: column;
+
       align-items: stretch;
 
       gap: 1rem;
@@ -622,6 +978,7 @@ $font-stack:
 
   .panel-divider {
     width: 100%;
+
     height: 1px;
   }
 
@@ -665,6 +1022,7 @@ $font-stack:
     gap: 1rem;
 
     flex-wrap: wrap;
+
     justify-content: center;
   }
 }
