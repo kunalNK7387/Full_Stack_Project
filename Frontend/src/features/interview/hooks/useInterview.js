@@ -3,6 +3,7 @@ import {
   generateInterviewReport,
   getInterviewReportsById,
 } from "../services/interview.api";
+
 import { useContext } from "react";
 import { InterviewContext } from "../interview.context";
 
@@ -13,8 +14,19 @@ export const useInterview = () => {
     throw new Error("useInterview must be used within an InterviewProvider");
   }
 
-  const { loading, setLoading, report, setReport, reports, setReports } =
-    context;
+  const {
+    loading,
+    setLoading,
+
+    reportsLoading,
+    setReportsLoading,
+
+    report,
+    setReport,
+
+    reports,
+    setReports,
+  } = context;
 
   const generateReport = async ({
     jobDescription,
@@ -59,26 +71,36 @@ export const useInterview = () => {
   };
 
   const getReports = async () => {
-    setLoading(true);
+    setReportsLoading(true);
 
     try {
+      console.log("Fetching interview reports...");
+
       const response = await getAllInterviewReports();
 
-      setReports(response.interviewReports);
+      console.log("Reports API response:", response);
+
+      setReports(response.interviewReports || []);
 
       return response;
     } catch (error) {
-      console.log("Get reports error:", error);
-      throw error;
+      console.error("Get reports error:", error);
+
+      setReports([]);
     } finally {
-      setLoading(false);
+      console.log("Finished fetching reports");
+
+      setReportsLoading(false);
     }
   };
 
   return {
     loading,
+    reportsLoading,
+
     report,
     reports,
+
     generateReport,
     getReportById,
     getReports,

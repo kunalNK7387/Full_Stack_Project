@@ -4,7 +4,8 @@ import { useInterview } from "../hooks/useInterview";
 import { useNavigate } from "react-router";
 
 const Home = () => {
-  const { loading, generateReport, reports, getReports } = useInterview();
+  const { loading, reportsLoading, generateReport, reports, getReports } =
+    useInterview();
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
   const resumeInputRef = useRef();
@@ -167,33 +168,47 @@ const Home = () => {
       </div>
 
       {/* Recent Reports */}
-      {reports.length < 0 && (
-        <section className="recent-reports">
-          <h2>My Recent Interview Plans</h2>
 
+      <section className="recent-reports">
+        <h2>My Recent Interview Plans</h2>
+
+        {reportsLoading ? (
+          <p className="no-reports">Loading recent reports...</p>
+        ) : reports.length === 0 ? (
+          <p className="no-reports">No interview plans generated yet.</p>
+        ) : (
           <ul className="reports-list">
-            {reports.map((report) => (
-              <li
-                key={report._id}
-                className="report-item"
-                onClick={() => navigate(`/interview/${report._id}`)}
-              >
-                <h3>{report.title || "Untitled Position"}</h3>
+            {reports.map((report) => {
+              const scoreClass =
+                report.matchScore >= 80
+                  ? "score--high"
+                  : report.matchScore >= 60
+                    ? "score--mid"
+                    : "score--low";
 
-                <p className="report-meta">
-                  Generated on {new Date(report.createdAt).toLocaleDateString()}
-                </p>
-
-                <p
-                  className={`match-score ${report.matchScore >= 80 ? "score--high" : report.matchScore >= 60 ? "score--mid" : "score--low"}`}
+              return (
+                <li
+                  key={report._id}
+                  className="report-item"
+                  onClick={() => navigate(`/interview/${report._id}`)}
                 >
-                  Match Score: {report}
-                </p>
-              </li>
-            ))}
+                  <h3>{report.title || "Untitled Position"}</h3>
+
+                  <p className="report-meta">
+                    Generated on{" "}
+                    {new Date(report.createdAt).toLocaleDateString("en-GB")}
+                  </p>
+
+                  <p className={`match-score ${scoreClass}`}>
+                    Match Score: {report.matchScore}%
+                  </p>
+                </li>
+              );
+            })}
           </ul>
-        </section>
-      )}
+        )}
+      </section>
+
       {/* Footer */}
       <footer className="page-footer">
         <a href="#privacy">Privacy Policy</a>

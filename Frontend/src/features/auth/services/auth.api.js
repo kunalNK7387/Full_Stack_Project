@@ -43,9 +43,15 @@ export async function logout() {
 
 export async function getMe() {
   try {
+    console.log("GET ME: Sending request...");
+
     const response = await api.get("/api/auth/get-me");
+
+    console.log("GET ME: Response received:", response.data);
+
     return response.data;
   } catch (err) {
-    console.log(err);
+    console.error("GET ME ERROR:", err);
+    throw err;
   }
 }

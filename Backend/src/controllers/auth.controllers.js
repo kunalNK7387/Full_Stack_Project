@@ -124,14 +124,30 @@ async function logoutUserController(req, res) {
  */
 
 async function getMeController(req, res) {
+  console.log("8️⃣ GET ME CONTROLLER STARTED");
+
+  console.log("9️⃣ USER ID:", req.user.id);
+
   const user = await userModel.findById(req.user.id);
 
-  res.status(200).json({
-    message: "User details fetched Successfully",
+  console.log("🔟 USER QUERY FINISHED");
+
+  if (!user) {
+    console.log("❌ USER NOT FOUND");
+
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  console.log("✅ USER FOUND");
+
+  return res.status(200).json({
+    message: "User details fetched successfully",
     user: {
       id: user._id,
       username: user.username,
-      emai: user.email,
+      email: user.email,
     },
   });
 }

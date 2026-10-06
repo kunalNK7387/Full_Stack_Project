@@ -62,18 +62,27 @@ async function generateInterviewReportByIdController(req, res) {
  */
 
 async function getAllInterviewReportsController(req, res) {
-  const interviewReports = await interviewReportModel.find(
-    { user: req.user.id }
+  try {
+    const interviewReports = await interviewReportModel
+      .find({ user: req.user.id })
       .sort({ createdAt: -1 })
       .select(
-        "-resume -selfDescription -jobDescription -_v -technicalQuestions -behavioralQuestions -skillGap -preparationPlan",
-      ),
-  );
+        "-resume -selfDescription -jobDescription -__v -technicalQuestions -behavioralQuestions -skillGap -preparationPlan",
+      );
 
-  res.status(200).json({
-    message: "Interview reports fetches successfully.",
-    interviewReports,
-  });
+    console.log("INTERVIEW REPORTS:", interviewReports);
+
+    res.status(200).json({
+      message: "Interview reports fetched successfully.",
+      interviewReports,
+    });
+  } catch (error) {
+    console.error("GET ALL REPORTS ERROR:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch interview reports.",
+    });
+  }
 }
 module.exports = {
   generateInterviewReportController,
