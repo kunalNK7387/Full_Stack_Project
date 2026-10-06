@@ -66,7 +66,7 @@ async function getAllInterviewReportsController(req, res) {
     { user: req.user.id }
       .sort({ createdAt: -1 })
       .select(
-        "-resume -selfDescription -jobDescription -_v -technicalQuestions -behavioralQuestions -skillGaps -preparationPlan",
+        "-resume -selfDescription -jobDescription -_v -technicalQuestions -behavioralQuestions -skillGap -preparationPlan",
       ),
   );
 

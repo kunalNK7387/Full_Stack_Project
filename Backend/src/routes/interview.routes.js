@@ -25,7 +25,7 @@ interviewRouter.post(
  */
 
 interviewRouter.get(
-  "/report/:interview",
+  "/report/:interviewId",
   authMiddleware.authUser,
   interviewController.generateInterviewReportByIdController,
 );

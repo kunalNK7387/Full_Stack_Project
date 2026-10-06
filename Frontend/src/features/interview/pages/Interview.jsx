@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style/interview.scss";
+import { useInterview } from "../hooks/useInterview";
+import { useParams } from "react-router";
 
 const NAV_ITEMS = [
   {
@@ -61,122 +63,6 @@ const NAV_ITEMS = [
     ),
   },
 ];
-
-const interviewReport = {
-  matchScore: 85,
-
-  technicalQuestions: [
-    {
-      question:
-        "What is the difference between useState and useEffect in React?",
-      intention:
-        "To evaluate your understanding of React hooks and component lifecycle.",
-      answer:
-        "useState is used to manage component state, while useEffect is used to perform side effects such as API calls, subscriptions, or updating the DOM.",
-    },
-    {
-      question: "What is the Virtual DOM in React?",
-      intention:
-        "To check your understanding of React's rendering and performance model.",
-      answer:
-        "The Virtual DOM is a lightweight representation of the actual DOM. React compares changes in the Virtual DOM and updates only the necessary parts of the real DOM.",
-    },
-    {
-      question: "What is the difference between props and state?",
-      intention: "To test fundamental React concepts.",
-      answer:
-        "Props are data passed from a parent component to a child component, while state is data managed internally by a component.",
-    },
-    {
-      question: "What is middleware in Express.js?",
-      intention:
-        "To evaluate your understanding of backend request processing.",
-      answer:
-        "Middleware functions have access to the request, response, and next function. They can execute code, modify requests or responses, end the request cycle, or pass control to the next middleware.",
-    },
-  ],
-
-  behavioralQuestions: [
-    {
-      question: "Tell me about yourself.",
-      intention:
-        "To understand your background, communication skills, and career goals.",
-      answer:
-        "I am a web developer with a strong interest in building modern applications using React, JavaScript, Node.js, Express, and MongoDB.",
-    },
-    {
-      question: "Tell me about a challenging project you worked on.",
-      intention:
-        "To understand your problem-solving ability and practical experience.",
-      answer:
-        "I worked on an interview preparation application where I integrated frontend and backend functionality and worked with authentication, APIs, and MongoDB.",
-    },
-    {
-      question: "How do you handle a technical problem you don't understand?",
-      intention: "To evaluate your problem-solving and learning approach.",
-      answer:
-        "I first reproduce the problem, understand the error message, isolate the issue, research the relevant concept, and then test the solution step by step.",
-    },
-  ],
-
-  skillGaps: [
-    {
-      skill: "TypeScript",
-      severity: "medium",
-    },
-    {
-      skill: "Testing",
-      severity: "medium",
-    },
-    {
-      skill: "System Design",
-      severity: "high",
-    },
-    {
-      skill: "Docker",
-      severity: "low",
-    },
-  ],
-
-  preparationPlan: [
-    {
-      day: 1,
-      focus: "JavaScript Fundamentals",
-      tasks: [
-        "Revise ES6+ concepts",
-        "Practice promises and async/await",
-        "Review closures and scope",
-      ],
-    },
-    {
-      day: 2,
-      focus: "React.js",
-      tasks: [
-        "Revise React hooks",
-        "Practice component patterns",
-        "Review Context API",
-      ],
-    },
-    {
-      day: 3,
-      focus: "Backend Development",
-      tasks: [
-        "Revise Express.js",
-        "Practice REST APIs",
-        "Review authentication concepts",
-      ],
-    },
-    {
-      day: 4,
-      focus: "MongoDB",
-      tasks: [
-        "Review CRUD operations",
-        "Practice Mongoose",
-        "Revise data relationships",
-      ],
-    },
-  ],
-};
 
 // Question Card
 const QuestionCard = ({ item, index }) => {
@@ -258,7 +144,21 @@ const RoadMapDay = ({ day }) => (
 const Interview = () => {
   const [activeNav, setActiveNav] = useState("technical");
 
-  const report = interviewReport;
+  const { interviewId } = useParams();
+
+  const { report, loading, getReportById } = useInterview();
+
+  useEffect(() => {
+    getReportById(interviewId);
+  }, [interviewId]);
+
+  if (loading || !report) {
+    return (
+      <main className="loading-screen">
+        <h1>Loading interview report...</h1>
+      </main>
+    );
+  }
 
   const scoreColor =
     report.matchScore >= 80
@@ -387,7 +287,7 @@ const Interview = () => {
             <p className="skill-gaps__label">Skill Gaps</p>
 
             <div className="skill-gaps__list">
-              {report.skillGaps.map((gap, index) => (
+              {report.skillGap.map((gap, index) => (
                 <span
                   key={index}
                   className={`skill-tag skill-tag--${gap.severity}`}

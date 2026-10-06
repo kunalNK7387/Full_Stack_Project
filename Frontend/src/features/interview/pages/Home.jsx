@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../style/home.scss";
+import { useInterview } from "../hooks/useInterview";
+import { useNavigate } from "react-router";
 
 const Home = () => {
+  const { loading, generateReport, reports, getReports } = useInterview();
+  const [jobDescription, setJobDescription] = useState("");
+  const [selfDescription, setSelfDescription] = useState("");
+  const resumeInputRef = useRef();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    getReports();
+  }, []);
+
+  const handleGenerateReport = async () => {
+    const resumeFile = resumeInputRef.current.files[0];
+
+    const data = await generateReport({
+      jobDescription,
+      selfDescription,
+      resumeFile,
+    });
+
+    console.log("HOME DATA:", data);
+
+    navigate(`/interview/${data.interviewReport._id}`);
+  };
+
+  if (loading) {
+    return (
+      <main className="loading-screen">
+        <h1>Loading your interview plan...</h1>
+      </main>
+    );
+  }
+
   return (
     <div className="home-page">
       {/* Page Header */}
@@ -30,6 +64,9 @@ const Home = () => {
             </div>
 
             <textarea
+              onChange={(e) => {
+                setJobDescription(e.target.value);
+              }}
               className="panel__textarea"
               placeholder={
                 "Paste the full job description here...\ne.g. 'Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design...'"
@@ -68,6 +105,7 @@ const Home = () => {
                 <p className="dropzone__subtitle">PDF or DOCX (Max 5MB)</p>
 
                 <input
+                  ref={resumeInputRef}
                   hidden
                   type="file"
                   id="resume"
@@ -89,6 +127,9 @@ const Home = () => {
               </label>
 
               <textarea
+                onChange={(e) => {
+                  setSelfDescription(e.target.value);
+                }}
                 id="selfDescription"
                 name="selfDescription"
                 className="panel__textarea panel__textarea--short"
@@ -115,35 +156,44 @@ const Home = () => {
             AI-Powered Strategy Generation &bull; Approx 30s
           </span>
 
-          <button type="button" className="generate-btn">
+          <button
+            onClick={handleGenerateReport}
+            type="button"
+            className="generate-btn"
+          >
             ✦ Generate My Interview Strategy
           </button>
         </div>
       </div>
 
       {/* Recent Reports */}
-      <section className="recent-reports">
-        <h2>My Recent Interview Plans</h2>
+      {reports.length < 0 && (
+        <section className="recent-reports">
+          <h2>My Recent Interview Plans</h2>
 
-        <ul className="reports-list">
-          <li className="report-item">
-            <h3>Frontend Developer</h3>
+          <ul className="reports-list">
+            {reports.map((report) => (
+              <li
+                key={report._id}
+                className="report-item"
+                onClick={() => navigate(`/interview/${report._id}`)}
+              >
+                <h3>{report.title || "Untitled Position"}</h3>
 
-            <p className="report-meta">Generated on 04/10/2026</p>
+                <p className="report-meta">
+                  Generated on {new Date(report.createdAt).toLocaleDateString()}
+                </p>
 
-            <p className="match-score score--high">Match Score: 85%</p>
-          </li>
-
-          <li className="report-item">
-            <h3>Full Stack Developer</h3>
-
-            <p className="report-meta">Generated on 28/09/2026</p>
-
-            <p className="match-score score--mid">Match Score: 72%</p>
-          </li>
-        </ul>
-      </section>
-
+                <p
+                  className={`match-score ${report.matchScore >= 80 ? "score--high" : report.matchScore >= 60 ? "score--mid" : "score--low"}`}
+                >
+                  Match Score: {report}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {/* Footer */}
       <footer className="page-footer">
         <a href="#privacy">Privacy Policy</a>
