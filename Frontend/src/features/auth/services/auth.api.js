@@ -43,7 +43,7 @@ export async function logout() {
 
 export async function getMe() {
   try {
-    console.log("GET ME: Sending request...");
+   
 
     const response = await api.get("/api/auth/get-me");
 
