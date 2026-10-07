@@ -52,7 +52,16 @@ $font-stack:
 // ── Page Header ──────────────────────────────────────────────────────────────
 
 .page-header {
+  width: 100%;
   text-align: center;
+
+  .page-header__top {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   h1 {
     font-size: 2.25rem;
@@ -72,6 +81,38 @@ $font-stack:
 
   .highlight {
     color: $accent;
+  }
+
+  .logout-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    padding: 0.55rem 1rem;
+
+    background: transparent;
+    color: $text-muted;
+
+    border: 1px solid $border-color;
+    border-radius: 0.5rem;
+
+    font-family: $font-stack;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background-color: rgba($error, 0.08);
+      border-color: rgba($error, 0.4);
+      color: $error;
+    }
   }
 }
 
