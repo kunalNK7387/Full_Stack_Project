@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://full-stack-project-6dlm.onrender.com/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
