@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://full-stack-project-aiuo.onrender.com",
+  baseURL: "",
   withCredentials: true,
 });
 /**
