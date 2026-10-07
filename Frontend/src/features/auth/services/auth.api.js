@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://full-stack-project-aiuo.onrender.com",
   withCredentials: true,
 });
 
@@ -43,8 +43,6 @@ export async function logout() {
 
 export async function getMe() {
   try {
-   
-
     const response = await api.get("/api/auth/get-me");
 
     console.log("GET ME: Response received:", response.data);

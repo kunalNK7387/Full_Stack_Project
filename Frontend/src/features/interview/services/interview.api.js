@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://full-stack-project-aiuo.onrender.com",
   withCredentials: true,
 });
 
@@ -47,7 +47,6 @@ export const getAllInterviewReports = async () => {
   return response.data;
 };
 
-
 /**
  * @description Service to  Delete the previous interview report of logged in user.
  */
@@ -56,7 +55,6 @@ export const deleteInterviewReport = async (interviewId) => {
 
   return response.data;
 };
-
 
 /**
  * @description Service to generated resume pdf based on user self description , resume content and job description.
