@@ -6,12 +6,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: "https://full-stack-project-48mi.vercel.app",
-    credentials: true,
-  }),
-);
+app.use(cors());
 
 app.get("/test", (req, res) => {
   res.json({
