@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://full-stack-project-aiuo.onrender.com/api/:path*"
-    }
-  ]
-}

@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "",
+  baseURL: "https://full-stack-project-aiuo.onrender.com",
   withCredentials: true,
 });
-
 /**
  * @description service to generate interview report based on user self description, resume and job description
  */
