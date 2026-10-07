@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://full-stack-project-aiuo.onrender.com",
+    origin: "full-stack-project-xi-one.vercel.app",
     credentials: true,
   }),
 );
