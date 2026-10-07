@@ -47,8 +47,27 @@ export const getAllInterviewReports = async () => {
   return response.data;
 };
 
+
+/**
+ * @description Service to  Delete the previous interview report of logged in user.
+ */
 export const deleteInterviewReport = async (interviewId) => {
   const response = await api.delete(`/api/interview/report/${interviewId}`);
 
+  return response.data;
+};
+
+
+/**
+ * @description Service to generated resume pdf based on user self description , resume content and job description.
+ */
+export const generateResumePdf = async ({ interviewReportId }) => {
+  const response = await api.post(
+    `/api/interview/resume/pdf/${interviewReportId}`,
+    null,
+    {
+      responseType: "blob",
+    },
+  );
   return response.data;
 };
