@@ -90,14 +90,18 @@ async function loginUserController(req, res) {
     { expiresIn: "1d" },
   );
 
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
 
   res.status(201).json({
-    message: "User registered Succesfully",
+    message: "User logged in successfully",
     user: {
       id: user._id,
       username: user.username,
-      emai: user.email,
+      email: user.email,
     },
   });
 }
@@ -114,7 +118,7 @@ async function logoutUserController(req, res) {
   if (token) {
     await tokenBlacklistModel.create({ token });
   }
-  res.cookie("token", token, {
+  res.clearCookie("token", {
     httpOnly: true,
     secure: true,
     sameSite: "none",
