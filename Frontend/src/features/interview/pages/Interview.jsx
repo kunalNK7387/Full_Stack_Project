@@ -146,7 +146,7 @@ const Interview = () => {
 
   const { interviewId } = useParams();
 
-  const { report, loading, getReportById } = useInterview();
+  const { report, loading, getReportById, getResumePdf } = useInterview();
 
   useEffect(() => {
     getReportById(interviewId);
@@ -190,7 +190,7 @@ const Interview = () => {
             ))}
           </div>
 
-          <button className="button primary-button">
+          <button onClick={()=>{getResumePdf(interviewId)}} className="button primary-button">
             <svg
               height="0.8rem"
               style={{ marginRight: "0.8rem" }}
