@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
-const pupperteer = require("puppeteer");
+const puppeteer = require("puppeteer");
 
 const { zodToJsonSchema } = require("zod-to-json-schema");
 
@@ -127,7 +127,9 @@ async function generateInterviewReport({
 }
 
 async function generatePdfFromHtml(htmlContent) {
-  const browser = await pupperteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+  });
   const page = await browser.newPage();
   await page.setContent(htmlContent, { waitUntil: "networkidle0" });
 
