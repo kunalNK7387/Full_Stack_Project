@@ -9,7 +9,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "https://full-stack-project-ten-sandy.vercel.app",
+    origin: "https://full-stack-project-swart.vercel.app",
     credentials: true,
   }),
 );
