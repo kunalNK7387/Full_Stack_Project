@@ -11,7 +11,7 @@ Match scoring · Tailored interview questions · Skill-gap analysis · Day-wise 
 ![Gemini](https://img.shields.io/badge/AI-Google%20Gemini-4285F4?logo=google&logoColor=white)
 ![License](https://img.shields.io/badge/License-Educational-lightgrey)
 
-[Live Demo](#) · [Report a Bug](../../issues) · [Request a Feature](../../issues)
+[Live Demo]([#](https://full-stack-project-swart.vercel.app/login)) · [Report a Bug](../../issues) · [Request a Feature](../../issues)
 
 ---
 
@@ -280,8 +280,8 @@ GOOGLE_GENAI_API_KEY=your_gemini_api_key
 
 | Layer    | Suggested Service                              |
 | -------- | ---------------------------------------------- |
-| Frontend | [Vercel](https://vercel.com/)                  |
-| Backend  | [Render](https://render.com/)                  |
+| Frontend | [Vercel]([https://vercel.com/](https://vercel.com/kunalkhairnar595-9147s-projects/full-stack-project))                  |
+| Backend  | [Render]([https://render.com/](https://full-stack-project-6dlm.onrender.com))                  |
 | Database | [MongoDB Atlas](https://www.mongodb.com/atlas) |
 
 Before deploying:
@@ -326,7 +326,7 @@ This project is available for educational and portfolio purposes. If you plan to
 
 **Kunal Khairnar**
 
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [Your Name](https://www.linkedin.com/in/your-profile)
+- GitHub: [@kunalNK7387](https://github.com/kunalNK7387)
+- LinkedIn: [Kunal_Khairnar]([https://www.linkedin.com/in/your-profile](https://www.linkedin.com/in/kunal-khairnar-3aab8640b))
 
 ⭐ If you found this project helpful, consider giving it a star!
