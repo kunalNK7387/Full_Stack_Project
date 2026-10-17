@@ -67,7 +67,7 @@ Upload your resume, paste a target job description, and add a short self-descrip
 
 | Dashboard                                    | Interview Report                       |
 | -------------------------------------------- | -------------------------------------- |
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Report](docs/screenshots/report.png) |
+| ![Dashboard](./Public/Dashboard.png) | ![Report](./Public/Report.png) |
 
 ---
 
